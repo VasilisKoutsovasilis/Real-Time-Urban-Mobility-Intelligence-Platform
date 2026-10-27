@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/traffic_event.schema.json",
+  "title": "Traffic Sensor Event",
+  "description": "Version 1 event emitted by the synthetic mobility sensor generator.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "sensor_id",
+    "segment_id",
+    "event_time",
+    "vehicle_count",
+    "avg_speed_kmh",
+    "occupancy_pct"
+  ],
+  "properties": {
+    "schema_version": { "type": "integer", "const": 1 },
+    "event_id": { "type": "string", "pattern": "^evt-[0-9]{12}$" },
+    "sensor_id": { "type": "string", "pattern": "^sensor-[0-9]{4}$" },
+    "segment_id": { "type": "string", "pattern": "^road-[0-9]{4}$" },
+    "event_time": { "type": "string", "format": "date-time" },
+    "vehicle_count": { "type": "integer", "minimum": 0, "maximum": 45 },
+    "avg_speed_kmh": { "type": "number", "minimum": 5, "maximum": 110 },
+    "occupancy_pct": { "type": "number", "minimum": 0, "maximum": 100 }
+  }
+}
