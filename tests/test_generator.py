@@ -31,12 +31,12 @@ class GenerateEventsTests(unittest.TestCase):
         for event in events:
             self.assertEqual(set(event), expected)
             self.assertEqual(event["schema_version"], 1)
-            self.assertGreaterEqual(event["vehicle_count"], 0)
-            self.assertLessEqual(event["vehicle_count"], 45)
-            self.assertGreaterEqual(event["avg_speed_kmh"], 5)
-            self.assertLessEqual(event["avg_speed_kmh"], 110)
-            self.assertGreaterEqual(event["occupancy_pct"], 0)
-            self.assertLessEqual(event["occupancy_pct"], 100)
+            self.assertGreaterEqual(int(str(event["vehicle_count"])), 0)
+            self.assertLessEqual(int(str(event["vehicle_count"])), 45)
+            self.assertGreaterEqual(float(str(event["avg_speed_kmh"])), 5)
+            self.assertLessEqual(float(str(event["avg_speed_kmh"])), 110)
+            self.assertGreaterEqual(float(str(event["occupancy_pct"])), 0)
+            self.assertLessEqual(float(str(event["occupancy_pct"])), 100)
 
     def test_event_time_increases_by_one_second(self):
         events = list(generate_events(3, start_time=self.start_time))
@@ -68,6 +68,12 @@ class GenerateEventsTests(unittest.TestCase):
             list(generate_events(-1, start_time=self.start_time))
         with self.assertRaises(ValueError):
             list(generate_events(1, sensor_count=0, start_time=self.start_time))
+            
+    def test_generates_zero_events(self):
+        events = list(
+            generate_events(0, start_time=self.start_time)
+        )
+        self.assertEqual(events, [])
 
 
 if __name__ == "__main__":
